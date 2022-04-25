@@ -1,7 +1,7 @@
 # Проект «Киноман»
 
 * Студент: [Нана Бурулева](https://up.htmlacademy.ru/ecmascript/17/user/977795).
-* Наставник: `Неизвестно`.
+* Наставник: [Александр Мастеров](https://up.htmlacademy.ru/ecmascript/17/user/912463).
 
 ---
 
