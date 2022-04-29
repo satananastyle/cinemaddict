@@ -6,7 +6,7 @@ import FilmCardView from '../view/film-card-view.js';
 import BtnMoreView from '../view/btn-more-view.js';
 import { render } from '../render.js';
 
-export default class FilmsListPresenter {
+export default class FilmsPresenter {
   filmsComponent = new FilmsView();
   filmsList = new FilmsListView();
   filmsListContainer = new FilmsListContainerView();
