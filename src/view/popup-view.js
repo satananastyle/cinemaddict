@@ -1,6 +1,6 @@
 import { createElement } from '../render.js';
 
-const createPopapTemplate = () => (
+const createPopupTemplate = () => (
   `<section class="film-details">
      <form class="film-details__inner" action="" method="get">
        <div class="film-details__top-container">
@@ -18,9 +18,9 @@ const createPopapTemplate = () => (
    </section>`
 );
 
-export default class PopapView {
+export default class PopupView {
   getTemplate() {
-    return createPopapTemplate();
+    return createPopupTemplate();
   }
 
   getElement() {
