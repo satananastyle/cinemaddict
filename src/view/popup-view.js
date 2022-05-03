@@ -31,6 +31,24 @@ export default class PopupView {
     return this.element;
   }
 
+  getTopContainer() {
+    if (!this.element) {
+      this.element = createElement(this.getTemplate());
+    }
+
+    const topContainerElement = this.element.querySelector('.film-details__top-container');
+    return topContainerElement;
+  }
+
+  getCommentContainer() {
+    if (!this.element) {
+      this.element = createElement(this.getTemplate());
+    }
+
+    const commentContainerElement = this.element.querySelector('.film-details__comments-wrap');
+    return commentContainerElement;
+  }
+
   removeElement() {
     this.element = null;
   }

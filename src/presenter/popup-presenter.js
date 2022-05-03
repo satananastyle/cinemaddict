@@ -13,8 +13,8 @@ export default class PopupPresenter {
 
     render(this.popupComponent, this.mainContainerElement, RenderPosition.AFTEREND);
 
-    const topContainerElement = document.querySelector('.film-details__top-container');
-    const commentsWrapElement = document.querySelector('.film-details__comments-wrap');
+    const topContainerElement = this.popupComponent.getTopContainer();
+    const commentsWrapElement = this.popupComponent.getCommentContainer();
     render(new FilmDetailsView(), topContainerElement);
     render(new FilmControlsView(), topContainerElement);
 
