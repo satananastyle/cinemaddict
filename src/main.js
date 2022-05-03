@@ -16,7 +16,5 @@ render(new RatingView(), siteHeaderElement);
 render(new FiltersView(), siteMainElement);
 render(new FooterStatisticsView(), siteFooterStatisticsElement);
 
-// const body = document.querySelector('body');
-
 filmsPresenter.init(siteMainElement);
 popupPresenter.init(siteFooterElement);

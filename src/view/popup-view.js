@@ -32,21 +32,11 @@ export default class PopupView {
   }
 
   getTopContainer() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    const topContainerElement = this.element.querySelector('.film-details__top-container');
-    return topContainerElement;
+    return this.getElement().querySelector('.film-details__top-container');
   }
 
   getCommentContainer() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    const commentContainerElement = this.element.querySelector('.film-details__comments-wrap');
-    return commentContainerElement;
+    return this.getElement().querySelector('.film-details__comments-list');
   }
 
   removeElement() {
