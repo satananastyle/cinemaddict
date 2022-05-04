@@ -1,3 +1,5 @@
+import dayjs from 'dayjs';
+
 const getRandomInteger = (a = 0, b = 1) => {
   const lower = Math.ceil(Math.min(a, b));
   const upper = Math.floor(Math.max(a, b));
@@ -5,4 +7,40 @@ const getRandomInteger = (a = 0, b = 1) => {
   return Math.floor(lower + Math.random() * (upper - lower + 1));
 };
 
-export { getRandomInteger };
+const getRandom = (a = 1, b = 0) => {
+  const lower = Math.min(a, b);
+  const upper = Math.max(a, b);
+
+  const random = lower + Math.random() * (upper - lower);
+  return random.toFixed(1);
+};
+
+const getRandomInfo = (info) => {
+
+  const randomIndex = getRandomInteger(0, info.length - 1);
+
+  return info[randomIndex];
+};
+
+const getRandomList = (list) => {
+  const randomIndex = getRandomInteger(1, list.length - 1);
+
+  const randomList = [];
+
+  for (let i = 0; i <= randomIndex; i++) {
+    randomList.push(list[getRandomInteger(0, list.length - 1)]);
+  }
+
+  return randomList;
+};
+
+const formatRuntime = (minutes) => {
+  if ((minutes / 60) >= 1) {
+    return `${Math.floor(minutes / 60)}h ${minutes % 60}m`;
+  }
+  return `${minutes % 60}m`;
+};
+
+const formatDate = (date, format) => dayjs(date).format(format);
+
+export { getRandomInteger, getRandom, getRandomInfo, getRandomList, formatRuntime, formatDate };
