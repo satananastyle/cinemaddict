@@ -3,65 +3,61 @@ import { formatDate, formatRuntime } from '../utils.js';
 
 const RELEASE_DATE = 'DD MMMM YYYY';
 
-const createGenreTemplate = (genres) => {
-  const elements = [];
+const createRow = (title, info) => (
+  `<tr class="film-details__row">
+     <td class="film-details__term">${title}</td>
+       <td class="film-details__cell">${info}</td>
+   </tr>`
+);
 
-  genres.forEach((genre) => elements.push(`<span class="film-details__genre">${genre}</span>`));
-
-  return elements.join('');
-};
+const createGenreTemplate = (genres) => genres
+  .map((genre) => `<span class="film-details__genre">${genre}</span>`)
+  .join('');
 
 const createFilmDetailsTemplate = (film) => {
   const { filmInfo } = film;
+  const info = {
+    ageRating: filmInfo.ageRating,
+    title: filmInfo.title,
+    alternativeTitle: filmInfo.alternativeTitle,
+    rating: filmInfo.totalRating,
+    director: filmInfo.director,
+    writers: filmInfo.writers.join(', '),
+    actors: filmInfo.actors.join(', '),
+    date: formatDate(filmInfo.release.date, RELEASE_DATE),
+    runtime: formatRuntime(filmInfo.runtime),
+    country: filmInfo.release.releaseCountry,
+    genres: filmInfo.genres,
+    poster: filmInfo.poster,
+    description: filmInfo.description,
+  };
+
   return (
     `<div class="film-details__info-wrap">
      <div class="film-details__poster">
-       <img class="film-details__poster-img" src="./images/posters/the-great-flamarion.jpg" alt="">
-       <p class="film-details__age">${filmInfo.ageRating}+</p>
+       <img class="film-details__poster-img" src="${info.poster}" alt="">
+       <p class="film-details__age">${info.ageRating}+</p>
      </div>
      <div class="film-details__info">
        <div class="film-details__info-head">
          <div class="film-details__title-wrap">
-           <h3 class="film-details__title">${filmInfo.title}</h3>
-           <p class="film-details__title-original">Original: ${filmInfo.alternativeTitle}</p>
+           <h3 class="film-details__title">${info.title}</h3>
+           <p class="film-details__title-original">Original: ${info.alternativeTitle}</p>
          </div>
          <div class="film-details__rating">
-           <p class="film-details__total-rating">${filmInfo.totalRating}</p>
+           <p class="film-details__total-rating">${info.rating}</p>
          </div>
        </div>
        <table class="film-details__table">
-         <tr class="film-details__row">
-           <td class="film-details__term">Director</td>
-           <td class="film-details__cell">${filmInfo.director}</td>
-         </tr>
-         <tr class="film-details__row">
-           <td class="film-details__term">Writers</td>
-           <td class="film-details__cell">${filmInfo.writers.join(', ')}</td>
-         </tr>
-         <tr class="film-details__row">
-           <td class="film-details__term">Actors</td>
-           <td class="film-details__cell">${filmInfo.actors.join(', ')}</td>
-         </tr>
-         <tr class="film-details__row">
-           <td class="film-details__term">Release Date</td>
-           <td class="film-details__cell">${formatDate(filmInfo.release.releaseDate, RELEASE_DATE)}</td>
-         </tr>
-         <tr class="film-details__row">
-           <td class="film-details__term">Runtime</td>
-           <td class="film-details__cell">${formatRuntime(filmInfo.runtime)}</td>
-         </tr>
-         <tr class="film-details__row">
-           <td class="film-details__term">Country</td>
-           <td class="film-details__cell">${filmInfo.release.releaseCountry}</td>
-         </tr>
-         <tr class="film-details__row">
-           <td class="film-details__term">Genres</td>
-           <td class="film-details__cell">
-             ${createGenreTemplate(filmInfo.genre)}
-           </td>
-         </tr>
+         ${createRow('Director', info.director)}
+         ${createRow('Writers', info.writers)}
+         ${createRow('Actors', info.actors)}
+         ${createRow('Release Date', info.date)}
+         ${createRow('Runtime', info.runtime)}
+         ${createRow('Country', info.country)}
+         ${createRow((info.genres.length === 1 ? 'Genre' : 'Genres'), createGenreTemplate(info.genres))}
        </table>
-       <p class="film-details__film-description">${filmInfo.description}</p>
+       <p class="film-details__film-description">${info.description}</p>
      </div>
    </div>`
   );

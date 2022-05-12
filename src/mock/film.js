@@ -19,16 +19,6 @@ const posters = [
 ];
 
 const titles = [
-  'Легенда о волках',
-  'Песнь моря',
-  'Реальные упыри',
-  'Королевство полной луны',
-  'Психо',
-  'Идеальные незнакомцы',
-  'Французский вестник. Приложение к газете «Либерти. Канзас ивнинг сан»'
-];
-
-const alternativeTitles = [
   'WolfWalkers',
   'Song of the Sea',
   'What We Do in the Shadows',
@@ -86,45 +76,32 @@ const genres = [
   'Drama'
 ];
 
-const descriptions = [
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
-  'Cras aliquet varius magna, non porta ligula feugiat eget.',
-  'Fusce tristique felis at fermentum pharetra.',
-  'Aliquam id orci ut lectus varius viverra.',
-  'Nullam nunc ex, convallis sed finibus eget, sollicitudin eget ante.',
-  'Phasellus eros mauris, condimentum sed nibh vitae, sodales efficitur ipsum.',
-  'Sed blandit, eros vel aliquam faucibus, purus ex euismod diam, eu luctus nunc ante ut dui.',
-  'Sed sed nisi sed augue convallis suscipit in sed felis.',
-  'Aliquam erat volutpat. Nunc fermentum tortor ac porta dapibus. In rutrum ac purus sit amet tempus'
-];
-
-
 export const generateFilm = () => ({
-  id: '0',
-  // 'comments': [
-
-  // ],
+  id: 0,
+  comments: [1, 2, 3],
   filmInfo: {
     title: getRandomInfo(titles),
-    alternativeTitle: getRandomInfo(alternativeTitles),
+    alternativeTitle: getRandomInfo(titles),
     totalRating: getRandom(0, MAX_RATING),
     poster: getRandomInfo(posters),
     ageRating: getRandomInteger(0, MAX_AGE),
     director: getRandomInfo(directors),
-    writers: getRandomList(writers),
-    actors: getRandomList(actors),
+    writers: [...new Set(getRandomList(writers))],
+    actors: [...new Set(getRandomList(actors))],
     release: {
-      releaseDate: '2019-05-11T00:00:00.000Z',
-      releaseCountry: getRandomInfo(countries)
+      date: new Date('2019-05-11T00:00:00.000Z'),
+      country: getRandomInfo(countries)
     },
     runtime: getRandomInteger(Runtime.MIN, Runtime.MAX),
-    genre: getRandomList(genres),
-    description: getRandomList(descriptions).join(' '),
+    genres: [...new Set(getRandomList(genres))],
+    description: `Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                  Cras aliquet varius magna, non porta ligula feugiat eget.
+                  Fusce tristique felis at fermentum pharetra. Aliquam id orci ut lectus varius viverra.`,
   },
   userDetails: {
     watchlist: Boolean(getRandomInteger(0, 1)),
     alreadyWatched: Boolean(getRandomInteger(0, 1)),
-    watchingDate: '2019-04-12T16:12:32.554Z',
+    watchingDate: new Date('2019-04-12T16:12:32.554Z'),
     favorite: Boolean(getRandomInteger(0, 1))
   }
 });

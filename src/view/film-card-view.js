@@ -30,21 +30,34 @@ const createFilmControlsTemplate = (isWatchlist, isWatched, isFavorite) => (
 
 const createFilmCardTemplate = (film) => {
   const { filmInfo, userDetails } = film;
+  const info = {
+    title: filmInfo.title,
+    rating: filmInfo.totalRating,
+    date: formatDate(filmInfo.date, RELEASE_DATE_FORMAT),
+    runtime: formatRuntime(filmInfo.runtime),
+    genre: filmInfo.genres[0],
+    poster: filmInfo.poster,
+    description: getShortDescription(filmInfo.description),
+    comments: film.comments.length,
+    watchlist: userDetails.watchlist,
+    alreadyWatched: userDetails.alreadyWatched,
+    favorite: userDetails.favorite
+  };
   return (
     `<article class="film-card">
       <a class="film-card__link">
-        <h3 class="film-card__title">${filmInfo.title}</h3>
-        <p class="film-card__rating">${filmInfo.totalRating}</p>
+        <h3 class="film-card__title">${info.title}</h3>
+        <p class="film-card__rating">${info.rating}</p>
         <p class="film-card__info">
-          <span class="film-card__year">${formatDate(filmInfo.release.releaseDate, RELEASE_DATE_FORMAT)}</span>
-          <span class="film-card__duration">${formatRuntime(filmInfo.runtime)}</span>
-          <span class="film-card__genre">${filmInfo.genre[0]}</span>
+          <span class="film-card__year">${info.date}</span>
+          <span class="film-card__duration">${info.runtime}</span>
+          <span class="film-card__genre">${info.genre}</span>
         </p>
-        <img src="${filmInfo.poster}" alt="" class="film-card__poster">
-        <p class="film-card__description">${getShortDescription(filmInfo.description)}</p>
-        <span class="film-card__comments">5 comments</span>
+        <img src="${info.poster}" alt="" class="film-card__poster">
+        <p class="film-card__description">${info.description}</p>
+        <span class="film-card__comments">${info.comments} comments</span>
       </a>
-      ${createFilmControlsTemplate(userDetails.watchlist, userDetails.alreadyWatched, userDetails.favorite)}
+      ${createFilmControlsTemplate(info.watchlist, info.alreadyWatched, info.favorite)}
    </article>`
   );
 };

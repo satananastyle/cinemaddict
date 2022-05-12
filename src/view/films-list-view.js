@@ -1,20 +1,27 @@
 import { createElement } from '../render.js';
 
-const createFilmsListTemplate = (films) => (
+const MESSAGES = {
+  empty: 'There are no movies in our database',
+  main: 'All movies.Upcoming',
+  rated: 'Top rated',
+  commented: 'Most commented'
+};
+
+const createFilmsListTemplate = (message) => (
   `<section class="films-list">
-      ${films.length > 0
-    ? '<h2 class="films-list__title visually-hidden">All movies. Upcoming</h2>'
-    : '<h2 class="films-list__title">There are no movies in our database</h2>'}
+      <h2 class="films-list__title ${message === 'All movies.Upcoming' ? 'visually-hidden' : ''}">
+        ${message}
+      </h2>
    </section>`
 );
 
-export default class FilmsListView {
-  constructor(films) {
-    this.films = films;
+class FilmsListView {
+  constructor(message) {
+    this.message = message;
   }
 
   getTemplate() {
-    return createFilmsListTemplate(this.films);
+    return createFilmsListTemplate(this.message);
   }
 
   getElement() {
@@ -29,3 +36,6 @@ export default class FilmsListView {
     this.element = null;
   }
 }
+
+
+export { FilmsListView, MESSAGES };

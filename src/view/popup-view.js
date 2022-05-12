@@ -1,6 +1,6 @@
 import { createElement } from '../render.js';
 
-const createPopupTemplate = () => (
+const createPopupTemplate = (comments) => (
   `<section class="film-details">
      <form class="film-details__inner" action="" method="get">
        <div class="film-details__top-container">
@@ -10,7 +10,7 @@ const createPopupTemplate = () => (
        </div>
        <div class="film-details__bottom-container">
          <section class="film-details__comments-wrap">
-           <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">4</span></h3>
+           <h3 class="film-details__comments-title">Comments <span class="film-details__comments-count">${comments.length}</span></h3>
            <ul class="film-details__comments-list"></ul>
          </section>
        </div>
@@ -19,8 +19,12 @@ const createPopupTemplate = () => (
 );
 
 export default class PopupView {
+  constructor(comments) {
+    this.comments = comments;
+  }
+
   getTemplate() {
-    return createPopupTemplate();
+    return createPopupTemplate(this.comments);
   }
 
   getElement() {

@@ -6,21 +6,21 @@ import NewCommentFormView from '../view/new-comment-form-view.js';
 import { RenderPosition, render } from '../render.js';
 
 export default class PopupPresenter {
-  popupComponent = new PopupView();
-
   init = (mainContainerElement, filmsModel) => {
     this.mainContainerElement = mainContainerElement;
-    this.boardFilms = [...filmsModel.getFilms()];
+    this.openedFilm = [...filmsModel.getFilms()][0];
+    this.commentsList = [...filmsModel.getComments(this.openedFilm.comments.length)];
+    this.popupComponent = new PopupView(this.commentsList);
 
     render(this.popupComponent, this.mainContainerElement, RenderPosition.AFTEREND);
 
     const topContainerElement = this.popupComponent.getTopContainer();
     const commentsWrapElement = this.popupComponent.getCommentContainer();
-    render(new FilmDetailsView(this.boardFilms[0]), topContainerElement);
-    render(new FilmControlsView(this.boardFilms[0]), topContainerElement);
+    render(new FilmDetailsView(this.openedFilm), topContainerElement);
+    render(new FilmControlsView(this.openedFilm), topContainerElement);
 
-    for (let i = 0; i < 4; i++) {
-      render(new CommentView(), commentsWrapElement);
+    for (let i = 0; i < this.commentsList.length; i++) {
+      render(new CommentView(this.commentsList[i]), commentsWrapElement);
     }
 
     render(new NewCommentFormView(), commentsWrapElement);
