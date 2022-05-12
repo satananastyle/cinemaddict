@@ -33,7 +33,7 @@ const createFilmCardTemplate = (film) => {
   const info = {
     title: filmInfo.title,
     rating: filmInfo.totalRating,
-    date: formatDate(filmInfo.date, RELEASE_DATE_FORMAT),
+    date: formatDate(filmInfo.release.date, RELEASE_DATE_FORMAT),
     runtime: formatRuntime(filmInfo.runtime),
     genre: filmInfo.genres[0],
     poster: filmInfo.poster,

@@ -26,7 +26,7 @@ const createFilmDetailsTemplate = (film) => {
     actors: filmInfo.actors.join(', '),
     date: formatDate(filmInfo.release.date, RELEASE_DATE),
     runtime: formatRuntime(filmInfo.runtime),
-    country: filmInfo.release.releaseCountry,
+    country: filmInfo.release.country,
     genres: filmInfo.genres,
     poster: filmInfo.poster,
     description: filmInfo.description,
