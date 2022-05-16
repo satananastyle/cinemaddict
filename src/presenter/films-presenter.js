@@ -3,26 +3,30 @@ import FilmsView from '../view/films-view.js';
 import FilmsListView from '../view/films-list-view.js';
 import FilmsListContainerView from '../view/films-list-container-view.js';
 import FilmCardView from '../view/film-card-view.js';
-import ButtonMoreView from '../view/button-more-view.js';
+import ShowMoreButtonView from '../view/show-more-button-view.js';
 import { render } from '../render.js';
+import { FilmListTitle } from '../const.js';
 
 export default class FilmsPresenter {
   filmsComponent = new FilmsView();
-  filmsList = new FilmsListView();
   filmsListContainer = new FilmsListContainerView();
+  filmsList = new FilmsListView(FilmListTitle.MAIN);
 
-  init = (mainContainerElement) => {
+  init = (mainContainerElement, filmsModel) => {
     this.mainContainerElement = mainContainerElement;
+    this.films = [...filmsModel.getFilms()];
 
-    render(new SortView(), this.mainContainerElement);
+    if (this.films.length > 0) {
+      render(new SortView(), this.mainContainerElement);
+      render(this.filmsListContainer, this.filmsList.getElement());
+
+      for (let i = 0; i < this.films.length; i++) {
+        render(new FilmCardView(this.films[i]), this.filmsListContainer.getElement());
+      }
+
+      render(new ShowMoreButtonView(), this.filmsList.getElement());
+    }
     render(this.filmsComponent, this.mainContainerElement);
     render(this.filmsList, this.filmsComponent.getElement());
-    render(this.filmsListContainer, this.filmsList.getElement());
-
-    for (let i = 0; i < 5; i++) {
-      render(new FilmCardView(), this.filmsListContainer.getElement());
-    }
-
-    render(new ButtonMoreView(), this.filmsList.getElement());
   };
 }

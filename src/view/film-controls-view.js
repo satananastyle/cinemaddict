@@ -1,16 +1,26 @@
 import { createElement } from '../render.js';
 
-const createFilmControlsTemplate = () => (
+const getControlsItemClass = (isActive) => (isActive ? 'film-details__control-button--active' : '');
+
+const createControlButtonTemplate = (control, text, isActive = false) => (
+  `<button type="button" class="film-details__control-button film-details__control-button--${control} ${getControlsItemClass(isActive)}">${text}</button>`
+);
+
+const createFilmControlsTemplate = ({ watchlist, alreadyWatched, favorite }) => (
   `<section class="film-details__controls">
-      <button type="button" class="film-details__control-button film-details__control-button--watchlist" id="watchlist" name="watchlist">Add to watchlist</button>
-      <button type="button" class="film-details__control-button film-details__control-button--active film-details__control-button--watched" id="watched" name="watched">Already watched</button>
-      <button type="button" class="film-details__control-button film-details__control-button--favorite" id="favorite" name="favorite">Add to favorites</button>
+     ${createControlButtonTemplate('watchlist', 'Add to watchlist', watchlist)}
+     ${createControlButtonTemplate('watched', 'Already watched', alreadyWatched)}
+     ${createControlButtonTemplate('favorite', 'Add to favorites', favorite)}
    </section>`
 );
 
 export default class FilmControlsView {
+  constructor(userDetails) {
+    this.userDetails = userDetails;
+  }
+
   getTemplate() {
-    return createFilmControlsTemplate();
+    return createFilmControlsTemplate(this.userDetails);
   }
 
   getElement() {

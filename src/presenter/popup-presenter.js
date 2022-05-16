@@ -3,23 +3,23 @@ import FilmDetailsView from '../view/film-details-view.js';
 import FilmControlsView from '../view/film-controls-view.js';
 import CommentView from '../view/comment-view.js';
 import NewCommentFormView from '../view/new-comment-form-view.js';
-import { RenderPosition, render } from '../render.js';
+import { render } from '../render.js';
 
 export default class PopupPresenter {
-  popupComponent = new PopupView();
+  init = (filmsModel) => {
+    this.openedFilm = [...filmsModel.getFilms()][0];
+    this.comments = [...filmsModel.getComments(this.openedFilm.comments.length)];
+    this.popupComponent = new PopupView(this.comments);
 
-  init = (mainContainerElement) => {
-    this.mainContainerElement = mainContainerElement;
-
-    render(this.popupComponent, this.mainContainerElement, RenderPosition.AFTEREND);
+    render(this.popupComponent, document.body);
 
     const topContainerElement = this.popupComponent.getTopContainer();
     const commentsWrapElement = this.popupComponent.getCommentContainer();
-    render(new FilmDetailsView(), topContainerElement);
-    render(new FilmControlsView(), topContainerElement);
+    render(new FilmDetailsView(this.openedFilm), topContainerElement);
+    render(new FilmControlsView(this.openedFilm.userDetails), topContainerElement);
 
-    for (let i = 0; i < 4; i++) {
-      render(new CommentView(), commentsWrapElement);
+    for (let i = 0; i < this.comments.length; i++) {
+      render(new CommentView(this.comments[i]), commentsWrapElement);
     }
 
     render(new NewCommentFormView(), commentsWrapElement);

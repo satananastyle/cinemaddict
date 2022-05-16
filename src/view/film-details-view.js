@@ -1,65 +1,76 @@
 import { createElement } from '../render.js';
+import { formatDate, formatRuntime } from '../utils.js';
 
-const createFilmDetailsTemplate = () => (
-  `<div class="film-details__info-wrap">
+const RELEASE_DATE = 'DD MMMM YYYY';
+
+const createRowTemplate = (title, info) => (
+  `<tr class="film-details__row">
+     <td class="film-details__term">${title}</td>
+       <td class="film-details__cell">${info}</td>
+   </tr>`
+);
+
+const createGenreTemplate = (genres) => genres
+  .map((genre) => `<span class="film-details__genre">${genre}</span>`)
+  .join('');
+
+const createFilmDetailsTemplate = (film) => {
+  const { filmInfo } = film;
+  const info = {
+    ageRating: filmInfo.ageRating,
+    title: filmInfo.title,
+    alternativeTitle: filmInfo.alternativeTitle,
+    rating: filmInfo.totalRating,
+    director: filmInfo.director,
+    writers: filmInfo.writers.join(', '),
+    actors: filmInfo.actors.join(', '),
+    date: formatDate(filmInfo.release.date, RELEASE_DATE),
+    runtime: formatRuntime(filmInfo.runtime),
+    country: filmInfo.release.country,
+    genres: filmInfo.genres,
+    genreTitle: filmInfo.genres.length === 1 ? 'Genre' : 'Genres',
+    poster: filmInfo.poster,
+    description: filmInfo.description,
+  };
+
+  return (
+    `<div class="film-details__info-wrap">
      <div class="film-details__poster">
-       <img class="film-details__poster-img" src="./images/posters/the-great-flamarion.jpg" alt="">
-       <p class="film-details__age">18+</p>
+       <img class="film-details__poster-img" src="${info.poster}" alt="">
+       <p class="film-details__age">${info.ageRating}+</p>
      </div>
      <div class="film-details__info">
        <div class="film-details__info-head">
          <div class="film-details__title-wrap">
-           <h3 class="film-details__title">The Great Flamarion</h3>
-           <p class="film-details__title-original">Original: The Great Flamarion</p>
+           <h3 class="film-details__title">${info.title}</h3>
+           <p class="film-details__title-original">Original: ${info.alternativeTitle}</p>
          </div>
          <div class="film-details__rating">
-           <p class="film-details__total-rating">8.9</p>
+           <p class="film-details__total-rating">${info.rating}</p>
          </div>
        </div>
        <table class="film-details__table">
-         <tr class="film-details__row">
-           <td class="film-details__term">Director</td>
-           <td class="film-details__cell">Anthony Mann</td>
-         </tr>
-         <tr class="film-details__row">
-           <td class="film-details__term">Writers</td>
-           <td class="film-details__cell">Anne Wigton, Heinz Herald, Richard Weil</td>
-         </tr>
-         <tr class="film-details__row">
-           <td class="film-details__term">Actors</td>
-           <td class="film-details__cell">Erich von Stroheim, Mary Beth Hughes, Dan Duryea</td>
-         </tr>
-         <tr class="film-details__row">
-           <td class="film-details__term">Release Date</td>
-           <td class="film-details__cell">30 March 1945</td>
-         </tr>
-         <tr class="film-details__row">
-           <td class="film-details__term">Runtime</td>
-           <td class="film-details__cell">1h 18m</td>
-         </tr>
-         <tr class="film-details__row">
-           <td class="film-details__term">Country</td>
-           <td class="film-details__cell">USA</td>
-         </tr>
-         <tr class="film-details__row">
-           <td class="film-details__term">Genres</td>
-           <td class="film-details__cell">
-             <span class="film-details__genre">Drama</span>
-             <span class="film-details__genre">Film-Noir</span>
-             <span class="film-details__genre">Mystery</span>
-           </td>
-         </tr>
+         ${createRowTemplate('Director', info.director)}
+         ${createRowTemplate('Writers', info.writers)}
+         ${createRowTemplate('Actors', info.actors)}
+         ${createRowTemplate('Release Date', info.date)}
+         ${createRowTemplate('Runtime', info.runtime)}
+         ${createRowTemplate('Country', info.country)}
+         ${createRowTemplate(info.genreTitle, createGenreTemplate(info.genres))}
        </table>
-       <p class="film-details__film-description">
-         The film opens following a murder at a cabaret in Mexico City in 1936, and then presents the events leading up to it in flashback. The Great Flamarion (Erich von Stroheim) is an arrogant, friendless, and misogynous marksman who displays his trick gunshot act in the vaudeville circuit. His show features a beautiful assistant, Connie (Mary Beth Hughes) and her drunken husband Al (Dan Duryea), Flamarion's other assistant. Flamarion falls in love with Connie, the movie's femme fatale, and is soon manipulated by her into killing her no good husband during one of their acts.
-       </p>
+       <p class="film-details__film-description">${info.description}</p>
      </div>
    </div>`
-);
+  );
+};
 
 export default class FilmDetailsView {
+  constructor(film) {
+    this.film = film;
+  }
+
   getTemplate() {
-    return createFilmDetailsTemplate();
+    return createFilmDetailsTemplate(this.film);
   }
 
   getElement() {
