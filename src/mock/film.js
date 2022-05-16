@@ -1,4 +1,4 @@
-import { getRandomInteger, getRandom, getRandomInfo, getRandomList } from '../utils.js';
+import { getRandomInteger, getRandom, getRandomInfo, getRandomList } from './random.js';
 
 const MAX_AGE = 18;
 const MAX_RATING = 10;
@@ -77,7 +77,7 @@ const genres = [
 ];
 
 export const generateFilm = () => ({
-  id: 0,
+  id: '0',
   comments: [1, 2, 3],
   filmInfo: {
     title: getRandomInfo(titles),

@@ -1,14 +1,16 @@
 import { createElement } from '../render.js';
 
-const createFooterStatisticsTemplate = (films) => (`<p>${films.length} movies inside</p>`);
+const formatNumbers = (count) => new Intl.NumberFormat('ru-RU').format(count);
+
+const createFooterStatisticsTemplate = (count) => `<p>${formatNumbers(count)} movies inside</p>`;
 
 export default class FooterStatisticsView {
-  constructor(films) {
-    this.films = films;
+  constructor(count) {
+    this.count = count;
   }
 
   getTemplate() {
-    return createFooterStatisticsTemplate(this.films);
+    return createFooterStatisticsTemplate(this.count);
   }
 
   getElement() {

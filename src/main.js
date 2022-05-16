@@ -8,17 +8,16 @@ import { render } from './render.js';
 
 const siteHeaderElement = document.querySelector('.header');
 const siteMainElement = document.querySelector('.main');
-const siteFooterElement = document.querySelector('.footer');
 const siteFooterStatisticsElement = document.querySelector('.footer__statistics');
 const filmsPresenter = new FilmsPresenter();
 const popupPresenter = new PopupPresenter();
 
 const filmsModel = new FilmsModel();
-const boardFilms = filmsModel.getFilms();
+const films = filmsModel.getFilms();
 
 render(new RatingView(), siteHeaderElement);
 render(new FiltersView(), siteMainElement);
-render(new FooterStatisticsView(boardFilms), siteFooterStatisticsElement);
+render(new FooterStatisticsView(films.length), siteFooterStatisticsElement);
 
 filmsPresenter.init(siteMainElement, filmsModel);
-popupPresenter.init(siteFooterElement, filmsModel);
+popupPresenter.init(filmsModel);

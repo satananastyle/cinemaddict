@@ -3,7 +3,7 @@ import { formatDate, formatRuntime } from '../utils.js';
 
 const RELEASE_DATE = 'DD MMMM YYYY';
 
-const createRow = (title, info) => (
+const createRowTemplate = (title, info) => (
   `<tr class="film-details__row">
      <td class="film-details__term">${title}</td>
        <td class="film-details__cell">${info}</td>
@@ -28,6 +28,7 @@ const createFilmDetailsTemplate = (film) => {
     runtime: formatRuntime(filmInfo.runtime),
     country: filmInfo.release.country,
     genres: filmInfo.genres,
+    genreTitle: filmInfo.genres.length === 1 ? 'Genre' : 'Genres',
     poster: filmInfo.poster,
     description: filmInfo.description,
   };
@@ -49,13 +50,13 @@ const createFilmDetailsTemplate = (film) => {
          </div>
        </div>
        <table class="film-details__table">
-         ${createRow('Director', info.director)}
-         ${createRow('Writers', info.writers)}
-         ${createRow('Actors', info.actors)}
-         ${createRow('Release Date', info.date)}
-         ${createRow('Runtime', info.runtime)}
-         ${createRow('Country', info.country)}
-         ${createRow((info.genres.length === 1 ? 'Genre' : 'Genres'), createGenreTemplate(info.genres))}
+         ${createRowTemplate('Director', info.director)}
+         ${createRowTemplate('Writers', info.writers)}
+         ${createRowTemplate('Actors', info.actors)}
+         ${createRowTemplate('Release Date', info.date)}
+         ${createRowTemplate('Runtime', info.runtime)}
+         ${createRowTemplate('Country', info.country)}
+         ${createRowTemplate(info.genreTitle, createGenreTemplate(info.genres))}
        </table>
        <p class="film-details__film-description">${info.description}</p>
      </div>

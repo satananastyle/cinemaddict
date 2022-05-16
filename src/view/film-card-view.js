@@ -1,30 +1,21 @@
 import { createElement } from '../render.js';
-import { formatDate, formatRuntime } from '../utils.js';
+import { formatDate, formatRuntime, truncateText } from '../utils.js';
 
 const RELEASE_DATE_FORMAT = 'YYYY';
 
-const MAX_DESCRIPTION_LENGHT = 140;
+const MAX_DESCRIPTION_LENGTH = 140;
 
-const getShortDescription = (description) => {
-  if (description.split('').length > MAX_DESCRIPTION_LENGHT) {
-    description = `${description.slice(0, MAX_DESCRIPTION_LENGHT)}...`;
-  }
-  return description;
-};
+const getControlsItemClass = (isActive) => (isActive ? 'film-card__controls-item--active' : '');
 
-const getControlsItemClass = (isActive) => {
-  const classActiveButton = isActive
-    ? 'film-card__controls-item--active'
-    : '';
+const createControlButtonTemplate = (control, text, isActive = false) => (
+  `<button class="film-card__controls-item film-card__controls-item--${control} ${getControlsItemClass(isActive)}">${text}</button>`
+);
 
-  return classActiveButton;
-};
-
-const createFilmControlsTemplate = (isWatchlist, isWatched, isFavorite) => (
+const createFilmControlsTemplate = ({ watchlist, alreadyWatched, favorite }) => (
   `<form class="film-card__controls">
-     <button class="film-card__controls-item button film-card__controls-item--add-to-watchlist ${getControlsItemClass(isWatchlist)}">Add to watchlist</button>
-     <button class="film-card__controls-item button film-card__controls-item--mark-as-watched ${getControlsItemClass(isWatched)}">Mark as watched</button>
-     <button class="film-card__controls-item button film-card__controls-item--favorite ${getControlsItemClass(isFavorite)}">Mark as favorite</button>
+     ${createControlButtonTemplate('add-to-watchlist', 'Add to watchlist', watchlist)}
+     ${createControlButtonTemplate('mark-as-watched', 'Mark as watched', alreadyWatched)}
+     ${createControlButtonTemplate('favorite', 'Mark as favorite', favorite)}
    </form>`
 );
 
@@ -37,12 +28,10 @@ const createFilmCardTemplate = (film) => {
     runtime: formatRuntime(filmInfo.runtime),
     genre: filmInfo.genres[0],
     poster: filmInfo.poster,
-    description: getShortDescription(filmInfo.description),
+    description: truncateText(filmInfo.description, MAX_DESCRIPTION_LENGTH),
     comments: film.comments.length,
-    watchlist: userDetails.watchlist,
-    alreadyWatched: userDetails.alreadyWatched,
-    favorite: userDetails.favorite
   };
+
   return (
     `<article class="film-card">
       <a class="film-card__link">
@@ -57,7 +46,7 @@ const createFilmCardTemplate = (film) => {
         <p class="film-card__description">${info.description}</p>
         <span class="film-card__comments">${info.comments} comments</span>
       </a>
-      ${createFilmControlsTemplate(info.watchlist, info.alreadyWatched, info.favorite)}
+      ${createFilmControlsTemplate(userDetails)}
    </article>`
   );
 };

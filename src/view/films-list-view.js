@@ -1,21 +1,15 @@
 import { createElement } from '../render.js';
-
-const MESSAGES = {
-  empty: 'There are no movies in our database',
-  main: 'All movies.Upcoming',
-  rated: 'Top rated',
-  commented: 'Most commented'
-};
+import { FilmListTitle } from '../const.js';
 
 const createFilmsListTemplate = (message) => (
   `<section class="films-list">
-      <h2 class="films-list__title ${message === 'All movies.Upcoming' ? 'visually-hidden' : ''}">
+      <h2 class="films-list__title ${message === FilmListTitle.MAIN ? 'visually-hidden' : ''}">
         ${message}
       </h2>
    </section>`
 );
 
-class FilmsListView {
+export default class FilmsListView {
   constructor(message) {
     this.message = message;
   }
@@ -36,6 +30,3 @@ class FilmsListView {
     this.element = null;
   }
 }
-
-
-export { FilmsListView, MESSAGES };

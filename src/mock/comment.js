@@ -1,4 +1,4 @@
-import { getRandomInfo } from '../utils.js';
+import { getRandomInfo } from './random.js';
 
 const emotions = [
   'smile',
