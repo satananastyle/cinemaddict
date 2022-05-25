@@ -49,6 +49,7 @@ export default class PopupPresenter {
     if (document.body.lastChild === this.#popupComponent.element) {
       document.body.removeChild(this.#popupComponent.element);
       document.removeEventListener('keydown', remove);
+      document.body.classList.remove('hide-overflow');
     }
 
     this.#topContainerElement = null;

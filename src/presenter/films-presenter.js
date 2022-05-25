@@ -47,6 +47,7 @@ export default class FilmsPresenter {
       }
       this.#popupComponent = new PopupPresenter(filmsModel);
       this.#popupComponent.init(film);
+      document.body.classList.add('hide-overflow');
     };
 
     filmComponent.openLink.addEventListener('click', (evt) => {
