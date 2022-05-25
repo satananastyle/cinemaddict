@@ -6,7 +6,6 @@ import FilmsModel from './model/films-model.js';
 import { render } from './render.js';
 
 const filmsModel = new FilmsModel();
-const films = filmsModel.films;
 
 const siteHeaderElement = document.querySelector('.header');
 const siteMainElement = document.querySelector('.main');
@@ -15,7 +14,7 @@ const filmsPresenter = new FilmsPresenter(siteMainElement, filmsModel);
 
 render(new RatingView(), siteHeaderElement);
 render(new FiltersView(), siteMainElement);
-render(new FooterStatisticsView(films.length), siteFooterStatisticsElement);
+render(new FooterStatisticsView(filmsModel.films.length), siteFooterStatisticsElement);
 
 filmsPresenter.init();
 

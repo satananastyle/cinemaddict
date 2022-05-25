@@ -11,10 +11,6 @@ export default class PopupPresenter {
   #popupComponent = null;
   #filmsModel = null;
 
-  #topContainerElement = null;
-  #commentsWrapElement = null;
-  #closeButtonElement = null;
-
   constructor(filmsModel) {
     this.#filmsModel = filmsModel;
   }
@@ -26,23 +22,19 @@ export default class PopupPresenter {
 
     render(this.#popupComponent, document.body);
 
-    this.#topContainerElement = this.#popupComponent.topContainer;
-    this.#commentsWrapElement = this.#popupComponent.commentContainer;
-    this.#closeButtonElement = this.#popupComponent.closeButton;
-
-    this.#closeButtonElement.addEventListener('click', (e) => {
-      e.preventDefault();
+    this.#popupComponent.closeButton.addEventListener('click', (evt) => {
+      evt.preventDefault();
       this.delete();
     });
 
-    render(new FilmDetailsView(this.#openedFilm), this.#topContainerElement);
-    render(new FilmControlsView(this.#openedFilm.userDetails), this.#topContainerElement);
+    render(new FilmDetailsView(this.#openedFilm), this.#popupComponent.topContainer);
+    render(new FilmControlsView(this.#openedFilm.userDetails), this.#popupComponent.topContainer);
 
-    for (let i = 0; i < this.#comments.length; i++) {
-      render(new CommentView(this.#comments[i]), this.#commentsWrapElement);
-    }
+    this.#comments.forEach((comment) => {
+      render(new CommentView(comment), this.#popupComponent.commentContainer);
+    });
 
-    render(new NewCommentFormView(), this.#commentsWrapElement);
+    render(new NewCommentFormView(), this.#popupComponent.commentContainer);
   };
 
   delete = (remove) => {
@@ -51,9 +43,5 @@ export default class PopupPresenter {
       document.removeEventListener('keydown', remove);
       document.body.classList.remove('hide-overflow');
     }
-
-    this.#topContainerElement = null;
-    this.#commentsWrapElement = null;
-    this.#closeButtonElement = null;
   };
 }

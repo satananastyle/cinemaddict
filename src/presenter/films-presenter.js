@@ -15,7 +15,7 @@ export default class FilmsPresenter {
 
   #filmsComponent = new FilmsView();
   #filmsListContainer = new FilmsListContainerView();
-  #filmsList = new FilmsListView(FilmListTitle.MAIN);
+  #filmsList = null;
   #popupComponent = null;
 
   constructor(mainContainerElement, filmsModel) {
@@ -28,7 +28,7 @@ export default class FilmsPresenter {
     this.#renderFilmsList();
   };
 
-  #renderFilms = (film, filmsModel) => {
+  #renderFilms = (film) => {
     const filmComponent = new FilmCardView(film);
 
     const onEscKeyDown = (evt) => {
@@ -45,7 +45,7 @@ export default class FilmsPresenter {
         this.#popupComponent.delete(onEscKeyDown);
         this.#popupComponent = null;
       }
-      this.#popupComponent = new PopupPresenter(filmsModel);
+      this.#popupComponent = new PopupPresenter(this.#filmsModel);
       this.#popupComponent.init(film);
       document.body.classList.add('hide-overflow');
     };
@@ -60,16 +60,23 @@ export default class FilmsPresenter {
   };
 
   #renderFilmsList = () => {
-    if (this.#films.length > 0) {
-      render(new SortView(), this.#mainContainerElement);
-      render(this.#filmsListContainer, this.#filmsList.element);
-
-      for (let i = 0; i < this.#films.length; i++) {
-        this.#renderFilms(this.#films[i], this.#filmsModel);
-      }
-
-      render(new ShowMoreButtonView(), this.#filmsList.element);
+    if (this.#filmsModel.isEmpty()) {
+      this.#filmsList = new FilmsListView(FilmListTitle.EMPTY);
+      render(this.#filmsComponent, this.#mainContainerElement);
+      render(this.#filmsList, this.#filmsComponent.element);
+      return;
     }
+
+    this.#filmsList = new FilmsListView(FilmListTitle.MAIN);
+    render(new SortView(), this.#mainContainerElement);
+    render(this.#filmsListContainer, this.#filmsList.element);
+
+    for (let i = 0; i < this.#films.length; i++) {
+      this.#renderFilms(this.#films[i], this.#filmsModel);
+    }
+
+    render(new ShowMoreButtonView(), this.#filmsList.element);
+
     render(this.#filmsComponent, this.#mainContainerElement);
     render(this.#filmsList, this.#filmsComponent.element);
   };
