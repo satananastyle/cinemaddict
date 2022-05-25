@@ -6,22 +6,53 @@ import NewCommentFormView from '../view/new-comment-form-view.js';
 import { render } from '../render.js';
 
 export default class PopupPresenter {
-  init = (filmsModel) => {
-    this.openedFilm = [...filmsModel.getFilms()][0];
-    this.comments = [...filmsModel.getComments(this.openedFilm.comments.length)];
-    this.popupComponent = new PopupView(this.comments);
+  #openedFilm = null;
+  #comments = [];
+  #popupComponent = null;
+  #filmsModel = null;
 
-    render(this.popupComponent, document.body);
+  #topContainerElement = null;
+  #commentsWrapElement = null;
+  #closeButtonElement = null;
 
-    const topContainerElement = this.popupComponent.getTopContainer();
-    const commentsWrapElement = this.popupComponent.getCommentContainer();
-    render(new FilmDetailsView(this.openedFilm), topContainerElement);
-    render(new FilmControlsView(this.openedFilm.userDetails), topContainerElement);
+  constructor(filmsModel) {
+    this.#filmsModel = filmsModel;
+  }
 
-    for (let i = 0; i < this.comments.length; i++) {
-      render(new CommentView(this.comments[i]), commentsWrapElement);
+  init = (film) => {
+    this.#openedFilm = film;
+    this.#comments = this.#filmsModel.getComments(this.#openedFilm.comments.length);
+    this.#popupComponent = new PopupView(this.#comments);
+
+    render(this.#popupComponent, document.body);
+
+    this.#topContainerElement = this.#popupComponent.topContainer;
+    this.#commentsWrapElement = this.#popupComponent.commentContainer;
+    this.#closeButtonElement = this.#popupComponent.closeButton;
+
+    this.#closeButtonElement.addEventListener('click', (e) => {
+      e.preventDefault();
+      this.delete();
+    });
+
+    render(new FilmDetailsView(this.#openedFilm), this.#topContainerElement);
+    render(new FilmControlsView(this.#openedFilm.userDetails), this.#topContainerElement);
+
+    for (let i = 0; i < this.#comments.length; i++) {
+      render(new CommentView(this.#comments[i]), this.#commentsWrapElement);
     }
 
-    render(new NewCommentFormView(), commentsWrapElement);
+    render(new NewCommentFormView(), this.#commentsWrapElement);
+  };
+
+  delete = (remove) => {
+    if (document.body.lastChild === this.#popupComponent.element) {
+      document.body.removeChild(this.#popupComponent.element);
+      document.removeEventListener('keydown', remove);
+    }
+
+    this.#topContainerElement = null;
+    this.#commentsWrapElement = null;
+    this.#closeButtonElement = null;
   };
 }
