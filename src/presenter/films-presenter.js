@@ -31,29 +31,18 @@ export default class FilmsPresenter {
   #renderFilms = (film) => {
     const filmComponent = new FilmCardView(film);
 
-    const onEscKeyDown = (evt) => {
-      if (evt.key === 'Escape' || evt.key === 'Esc') {
-        evt.preventDefault();
-        this.#popupComponent.delete(onEscKeyDown);
-        this.#popupComponent = null;
-        document.removeEventListener('keydown', onEscKeyDown);
-      }
-    };
-
     const openFullInfo = () => {
       if (this.#popupComponent) {
-        this.#popupComponent.delete(onEscKeyDown);
+        this.#popupComponent.delete();
         this.#popupComponent = null;
       }
       this.#popupComponent = new PopupPresenter(this.#filmsModel);
       this.#popupComponent.init(film);
-      document.body.classList.add('hide-overflow');
     };
 
     filmComponent.openLink.addEventListener('click', (evt) => {
       evt.preventDefault();
       openFullInfo();
-      document.addEventListener('keydown', onEscKeyDown);
     });
 
     render(filmComponent, this.#filmsListContainer.element);

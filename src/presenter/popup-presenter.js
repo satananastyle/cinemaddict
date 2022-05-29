@@ -20,7 +20,8 @@ export default class PopupPresenter {
     this.#comments = this.#filmsModel.getComments(this.#openedFilm.comments.length);
     this.#popupComponent = new PopupView(this.#comments);
 
-    render(this.#popupComponent, document.body);
+    document.body.classList.add('hide-overflow');
+    document.addEventListener('keydown', this.#onEscKeyDown);
 
     this.#popupComponent.closeButton.addEventListener('click', (evt) => {
       evt.preventDefault();
@@ -35,13 +36,23 @@ export default class PopupPresenter {
     });
 
     render(new NewCommentFormView(), this.#popupComponent.commentContainer);
+    render(this.#popupComponent, document.body);
   };
 
-  delete = (remove) => {
+  delete = () => {
     if (document.body.lastChild === this.#popupComponent.element) {
       document.body.removeChild(this.#popupComponent.element);
-      document.removeEventListener('keydown', remove);
+      document.removeEventListener('keydown', this.#onEscKeyDown);
       document.body.classList.remove('hide-overflow');
     }
   };
+
+  #onEscKeyDown = (evt) => {
+    if (evt.key === 'Escape' || evt.key === 'Esc') {
+      evt.preventDefault();
+      this.delete();
+      document.removeEventListener('keydown', this.#onEscKeyDown);
+    }
+  };
+
 }
