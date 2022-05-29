@@ -1,32 +1,35 @@
 import { createElement } from '../render.js';
 import { FilmListTitle } from '../const.js';
 
-const createFilmsListTemplate = (message) => (
+const createFilmsListTemplate = (title) => (
   `<section class="films-list">
-      <h2 class="films-list__title ${message === FilmListTitle.MAIN ? 'visually-hidden' : ''}">
-        ${message}
+      <h2 class="films-list__title ${title === FilmListTitle.MAIN ? 'visually-hidden' : ''}">
+        ${title}
       </h2>
    </section>`
 );
 
 export default class FilmsListView {
-  constructor(message) {
-    this.message = message;
+  #element = null;
+  #title = null;
+
+  constructor(title) {
+    this.#title = title;
   }
 
-  getTemplate() {
-    return createFilmsListTemplate(this.message);
+  get template() {
+    return createFilmsListTemplate(this.#title);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
     }
 
-    return this.element;
+    return this.#element;
   }
 
   removeElement() {
-    this.element = null;
+    this.#element = null;
   }
 }

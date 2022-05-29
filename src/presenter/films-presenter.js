@@ -4,29 +4,69 @@ import FilmsListView from '../view/films-list-view.js';
 import FilmsListContainerView from '../view/films-list-container-view.js';
 import FilmCardView from '../view/film-card-view.js';
 import ShowMoreButtonView from '../view/show-more-button-view.js';
+import PopupPresenter from './popup-presenter.js';
 import { render } from '../render.js';
 import { FilmListTitle } from '../const.js';
 
 export default class FilmsPresenter {
-  filmsComponent = new FilmsView();
-  filmsListContainer = new FilmsListContainerView();
-  filmsList = new FilmsListView(FilmListTitle.MAIN);
+  #films = [];
+  #mainContainerElement = null;
+  #filmsModel = null;
 
-  init = (mainContainerElement, filmsModel) => {
-    this.mainContainerElement = mainContainerElement;
-    this.films = [...filmsModel.getFilms()];
+  #filmsComponent = new FilmsView();
+  #filmsListContainer = new FilmsListContainerView();
+  #filmsList = null;
+  #popupComponent = null;
 
-    if (this.films.length > 0) {
-      render(new SortView(), this.mainContainerElement);
-      render(this.filmsListContainer, this.filmsList.getElement());
+  constructor(mainContainerElement, filmsModel) {
+    this.#mainContainerElement = mainContainerElement;
+    this.#filmsModel = filmsModel;
+  }
 
-      for (let i = 0; i < this.films.length; i++) {
-        render(new FilmCardView(this.films[i]), this.filmsListContainer.getElement());
+  init = () => {
+    this.#films = [...this.#filmsModel.films];
+    this.#renderFilmsList();
+  };
+
+  #renderFilms = (film) => {
+    const filmComponent = new FilmCardView(film);
+
+    const openFullInfo = () => {
+      if (this.#popupComponent) {
+        this.#popupComponent.delete();
+        this.#popupComponent = null;
       }
+      this.#popupComponent = new PopupPresenter(this.#filmsModel);
+      this.#popupComponent.init(film);
+    };
 
-      render(new ShowMoreButtonView(), this.filmsList.getElement());
+    filmComponent.openLink.addEventListener('click', (evt) => {
+      evt.preventDefault();
+      openFullInfo();
+    });
+
+    render(filmComponent, this.#filmsListContainer.element);
+  };
+
+  #renderFilmsList = () => {
+    if (this.#filmsModel.isEmpty()) {
+      this.#filmsList = new FilmsListView(FilmListTitle.EMPTY);
+      render(this.#filmsComponent, this.#mainContainerElement);
+      render(this.#filmsList, this.#filmsComponent.element);
+      return;
     }
-    render(this.filmsComponent, this.mainContainerElement);
-    render(this.filmsList, this.filmsComponent.getElement());
+
+    this.#filmsList = new FilmsListView(FilmListTitle.MAIN);
+    render(new SortView(), this.#mainContainerElement);
+    render(this.#filmsListContainer, this.#filmsList.element);
+
+    for (let i = 0; i < this.#films.length; i++) {
+      this.#renderFilms(this.#films[i], this.#filmsModel);
+    }
+
+    render(new ShowMoreButtonView(), this.#filmsList.element);
+
+    render(this.#filmsComponent, this.#mainContainerElement);
+    render(this.#filmsList, this.#filmsComponent.element);
   };
 }

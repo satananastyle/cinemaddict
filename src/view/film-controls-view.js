@@ -15,23 +15,26 @@ const createFilmControlsTemplate = ({ watchlist, alreadyWatched, favorite }) => 
 );
 
 export default class FilmControlsView {
+  #element = null;
+  #userDetails = null;
+
   constructor(userDetails) {
-    this.userDetails = userDetails;
+    this.#userDetails = userDetails;
   }
 
-  getTemplate() {
-    return createFilmControlsTemplate(this.userDetails);
+  get template() {
+    return createFilmControlsTemplate(this.#userDetails);
   }
 
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
+  get element() {
+    if (!this.#element) {
+      this.#element = createElement(this.template);
     }
 
-    return this.element;
+    return this.#element;
   }
 
   removeElement() {
-    this.element = null;
+    this.#element = null;
   }
 }
