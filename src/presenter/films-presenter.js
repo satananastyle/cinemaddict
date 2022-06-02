@@ -8,6 +8,8 @@ import PopupPresenter from './popup-presenter.js';
 import { render } from '../render.js';
 import { FilmListTitle } from '../const.js';
 
+const COUNT_PER_STEP = 5;
+
 export default class FilmsPresenter {
   #films = [];
   #mainContainerElement = null;
@@ -17,6 +19,9 @@ export default class FilmsPresenter {
   #filmsListContainer = new FilmsListContainerView();
   #filmsList = null;
   #popupComponent = null;
+
+  #showMoreButton = new ShowMoreButtonView();
+  #renderedFilmCount = COUNT_PER_STEP;
 
   constructor(mainContainerElement, filmsModel) {
     this.#mainContainerElement = mainContainerElement;
@@ -28,7 +33,7 @@ export default class FilmsPresenter {
     this.#renderFilmsList();
   };
 
-  #renderFilms = (film) => {
+  #renderFilm = (film) => {
     const filmComponent = new FilmCardView(film);
 
     const openFullInfo = () => {
@@ -60,13 +65,32 @@ export default class FilmsPresenter {
     render(new SortView(), this.#mainContainerElement);
     render(this.#filmsListContainer, this.#filmsList.element);
 
-    for (let i = 0; i < this.#films.length; i++) {
-      this.#renderFilms(this.#films[i], this.#filmsModel);
+    for (let i = 0; i < Math.min(this.#films.length, COUNT_PER_STEP); i++) {
+      this.#renderFilm(this.#films[i], this.#filmsModel);
     }
 
-    render(new ShowMoreButtonView(), this.#filmsList.element);
+    if (this.#films.length > COUNT_PER_STEP) {
+      render(this.#showMoreButton, this.#filmsList.element);
+
+      this.#showMoreButton.element.addEventListener('click', this.#onShowMoreButton);
+    }
 
     render(this.#filmsComponent, this.#mainContainerElement);
     render(this.#filmsList, this.#filmsComponent.element);
+  };
+
+  #onShowMoreButton = (evt) => {
+    evt.preventDefault();
+
+    this.#films
+      .slice(this.#renderedFilmCount, this.#renderedFilmCount + COUNT_PER_STEP)
+      .forEach((film) => this.#renderFilm(film));
+
+    this.#renderedFilmCount += COUNT_PER_STEP;
+
+    if (this.#renderedFilmCount >= this.#films.length) {
+      this.#showMoreButton.element.remove();
+      this.#showMoreButton.removeElement();
+    }
   };
 }
