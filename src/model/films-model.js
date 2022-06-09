@@ -8,9 +8,9 @@ export default class FilmsModel {
     return this.#films;
   }
 
+  getComments = (comments) => Array.from({ length: comments }, generateComment);
+
   isEmpty() {
     return this.#films.length === 0;
   }
-
-  getComments = (comments) => Array.from({ length: comments }, generateComment);
 }

@@ -1,4 +1,4 @@
-import { createElement } from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 
 const getControlsItemClass = (isActive) => (isActive ? 'film-details__control-button--active' : '');
 
@@ -14,27 +14,15 @@ const createFilmControlsTemplate = ({ watchlist, alreadyWatched, favorite }) => 
    </section>`
 );
 
-export default class FilmControlsView {
-  #element = null;
+export default class FilmControlsView extends AbstractView {
   #userDetails = null;
 
   constructor(userDetails) {
+    super();
     this.#userDetails = userDetails;
   }
 
   get template() {
     return createFilmControlsTemplate(this.#userDetails);
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }

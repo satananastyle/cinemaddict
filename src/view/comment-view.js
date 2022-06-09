@@ -1,5 +1,5 @@
-import { createElement } from '../render.js';
-import { formatDate } from '../utils.js';
+import AbstractView from '../framework/view/abstract-view.js';
+import { formatDate } from '../utils/utils.js';
 
 const COMMENT_DATE = 'YYYY/MM/DD HH:MM';
 
@@ -23,27 +23,15 @@ const createCommentTemplate = (message) => {
   );
 };
 
-export default class CommentView {
-  #element = null;
+export default class CommentView extends AbstractView {
   #comment = null;
 
   constructor(comment) {
+    super();
     this.#comment = comment;
   }
 
   get template() {
     return createCommentTemplate(this.#comment);
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }

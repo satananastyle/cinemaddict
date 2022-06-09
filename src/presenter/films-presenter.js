@@ -5,10 +5,10 @@ import FilmsListContainerView from '../view/films-list-container-view.js';
 import FilmCardView from '../view/film-card-view.js';
 import ShowMoreButtonView from '../view/show-more-button-view.js';
 import PopupPresenter from './popup-presenter.js';
-import { render } from '../render.js';
-import { FilmListTitle } from '../const.js';
+import { render, remove } from '../framework/render.js';
+import { FilmListTitle } from '../utils/const.js';
 
-const COUNT_PER_STEP = 5;
+const FILM_COUNT_PER_STEP = 5;
 
 export default class FilmsPresenter {
   #films = [];
@@ -21,7 +21,7 @@ export default class FilmsPresenter {
   #popupComponent = null;
 
   #showMoreButton = new ShowMoreButtonView();
-  #renderedFilmCount = COUNT_PER_STEP;
+  #renderedFilmCount = FILM_COUNT_PER_STEP;
 
   constructor(mainContainerElement, filmsModel) {
     this.#mainContainerElement = mainContainerElement;
@@ -45,8 +45,7 @@ export default class FilmsPresenter {
       this.#popupComponent.init(film);
     };
 
-    filmComponent.openLink.addEventListener('click', (evt) => {
-      evt.preventDefault();
+    filmComponent.setOnLinkClick(() => {
       openFullInfo();
     });
 
@@ -65,32 +64,29 @@ export default class FilmsPresenter {
     render(new SortView(), this.#mainContainerElement);
     render(this.#filmsListContainer, this.#filmsList.element);
 
-    for (let i = 0; i < Math.min(this.#films.length, COUNT_PER_STEP); i++) {
+    for (let i = 0; i < Math.min(this.#films.length, FILM_COUNT_PER_STEP); i++) {
       this.#renderFilm(this.#films[i], this.#filmsModel);
     }
 
-    if (this.#films.length > COUNT_PER_STEP) {
+    if (this.#films.length > FILM_COUNT_PER_STEP) {
       render(this.#showMoreButton, this.#filmsList.element);
 
-      this.#showMoreButton.element.addEventListener('click', this.#onShowMoreButton);
+      this.#showMoreButton.setOnElementClick(this.#onShowMoreButtonClick);
     }
 
     render(this.#filmsComponent, this.#mainContainerElement);
     render(this.#filmsList, this.#filmsComponent.element);
   };
 
-  #onShowMoreButton = (evt) => {
-    evt.preventDefault();
-
+  #onShowMoreButtonClick = () => {
     this.#films
-      .slice(this.#renderedFilmCount, this.#renderedFilmCount + COUNT_PER_STEP)
-      .forEach((film) => this.#renderFilm(film));
+      .slice(this.#renderedFilmCount, this.#renderedFilmCount + FILM_COUNT_PER_STEP)
+      .forEach(this.#renderFilm);
 
-    this.#renderedFilmCount += COUNT_PER_STEP;
+    this.#renderedFilmCount += FILM_COUNT_PER_STEP;
 
     if (this.#renderedFilmCount >= this.#films.length) {
-      this.#showMoreButton.element.remove();
-      this.#showMoreButton.removeElement();
+      remove(this.#showMoreButton);
     }
   };
 }

@@ -1,5 +1,5 @@
-import { createElement } from '../render.js';
-import { formatDate, formatRuntime } from '../utils.js';
+import AbstractView from '../framework/view/abstract-view.js';
+import { formatDate, formatRuntime } from '../utils/utils.js';
 
 const RELEASE_DATE = 'DD MMMM YYYY';
 
@@ -64,27 +64,15 @@ const createFilmDetailsTemplate = (film) => {
   );
 };
 
-export default class FilmDetailsView {
-  #element = null;
+export default class FilmDetailsView extends AbstractView {
   #film = null;
 
   constructor(film) {
+    super();
     this.#film = film;
   }
 
   get template() {
     return createFilmDetailsTemplate(this.#film);
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }
