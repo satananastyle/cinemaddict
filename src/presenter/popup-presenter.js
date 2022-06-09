@@ -3,7 +3,7 @@ import FilmDetailsView from '../view/film-details-view.js';
 import FilmControlsView from '../view/film-controls-view.js';
 import CommentView from '../view/comment-view.js';
 import NewCommentFormView from '../view/new-comment-form-view.js';
-import { render } from '../render.js';
+import { render } from '../framework/render.js';
 
 export default class PopupPresenter {
   #openedFilm = null;
@@ -23,8 +23,7 @@ export default class PopupPresenter {
     document.body.classList.add('hide-overflow');
     document.addEventListener('keydown', this.#onEscKeyDown);
 
-    this.#popupComponent.closeButton.addEventListener('click', (evt) => {
-      evt.preventDefault();
+    this.#popupComponent.setOnCloseButtonClick(() => {
       this.delete();
     });
 

@@ -3,7 +3,7 @@ import FiltersView from './view/filters-view.js';
 import FilmsPresenter from './presenter/films-presenter.js';
 import FooterStatisticsView from './view/footer-statistics-view.js';
 import FilmsModel from './model/films-model.js';
-import { render } from './render.js';
+import { render } from './framework/render.js';
 
 const filmsModel = new FilmsModel();
 

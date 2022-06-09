@@ -5,7 +5,7 @@ import FilmsListContainerView from '../view/films-list-container-view.js';
 import FilmCardView from '../view/film-card-view.js';
 import ShowMoreButtonView from '../view/show-more-button-view.js';
 import PopupPresenter from './popup-presenter.js';
-import { render } from '../render.js';
+import { render } from '../framework/render.js';
 import { FilmListTitle } from '../const.js';
 
 const FILM_COUNT_PER_STEP = 5;
@@ -45,8 +45,7 @@ export default class FilmsPresenter {
       this.#popupComponent.init(film);
     };
 
-    filmComponent.openLink.addEventListener('click', (evt) => {
-      evt.preventDefault();
+    filmComponent.setOnLinkClick(() => {
       openFullInfo();
     });
 
@@ -72,16 +71,14 @@ export default class FilmsPresenter {
     if (this.#films.length > FILM_COUNT_PER_STEP) {
       render(this.#showMoreButton, this.#filmsList.element);
 
-      this.#showMoreButton.element.addEventListener('click', this.#onShowMoreButtonClick);
+      this.#showMoreButton.setOnElementClick(this.#onShowMoreButtonClick);
     }
 
     render(this.#filmsComponent, this.#mainContainerElement);
     render(this.#filmsList, this.#filmsComponent.element);
   };
 
-  #onShowMoreButtonClick = (evt) => {
-    evt.preventDefault();
-
+  #onShowMoreButtonClick = () => {
     this.#films
       .slice(this.#renderedFilmCount, this.#renderedFilmCount + FILM_COUNT_PER_STEP)
       .forEach(this.#renderFilm);
