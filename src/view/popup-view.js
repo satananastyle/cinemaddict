@@ -1,4 +1,4 @@
-import { createElement } from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 
 const createPopupTemplate = (comments) => (
   `<section class="film-details">
@@ -18,24 +18,16 @@ const createPopupTemplate = (comments) => (
    </section>`
 );
 
-export default class PopupView {
-  #element = null;
+export default class PopupView extends AbstractView {
   #comments = null;
 
   constructor(comments) {
+    super();
     this.#comments = comments;
   }
 
   get template() {
     return createPopupTemplate(this.#comments);
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
   }
 
   get topContainer() {
@@ -48,9 +40,5 @@ export default class PopupView {
 
   get closeButton() {
     return this.element.querySelector('.film-details__close-btn');
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }
