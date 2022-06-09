@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import { formatDate } from '../utils.js';
+import { formatDate } from '../utils/utils.js';
 
 const COMMENT_DATE = 'YYYY/MM/DD HH:MM';
 

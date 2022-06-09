@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import { FilmListTitle } from '../const.js';
+import { FilmListTitle } from '../utils/const.js';
 
 const createFilmsListTemplate = (title) => (
   `<section class="films-list">

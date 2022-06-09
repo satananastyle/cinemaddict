@@ -1,5 +1,5 @@
 import AbstractView from '../framework/view/abstract-view.js';
-import { formatDate, formatRuntime, truncateText } from '../utils.js';
+import { formatDate, formatRuntime, truncateText } from '../utils/utils.js';
 
 const RELEASE_DATE_FORMAT = 'YYYY';
 

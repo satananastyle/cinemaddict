@@ -5,8 +5,8 @@ import FilmsListContainerView from '../view/films-list-container-view.js';
 import FilmCardView from '../view/film-card-view.js';
 import ShowMoreButtonView from '../view/show-more-button-view.js';
 import PopupPresenter from './popup-presenter.js';
-import { render } from '../framework/render.js';
-import { FilmListTitle } from '../const.js';
+import { render, remove } from '../framework/render.js';
+import { FilmListTitle } from '../utils/const.js';
 
 const FILM_COUNT_PER_STEP = 5;
 
@@ -86,8 +86,7 @@ export default class FilmsPresenter {
     this.#renderedFilmCount += FILM_COUNT_PER_STEP;
 
     if (this.#renderedFilmCount >= this.#films.length) {
-      this.#showMoreButton.element.remove();
-      this.#showMoreButton.removeElement();
+      remove(this.#showMoreButton);
     }
   };
 }
