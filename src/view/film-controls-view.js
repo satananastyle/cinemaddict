@@ -1,6 +1,6 @@
 import AbstractView from '../framework/view/abstract-view.js';
 
-const getControlsItemClass = (isActive) => (isActive ? 'film-details__control-button--active' : '');
+const getControlsItemClass = (isActive) => isActive ? 'film-details__control-button--active' : '';
 
 const createControlButtonTemplate = (control, text, isActive = false) => (
   `<button type="button" class="film-details__control-button film-details__control-button--${control} ${getControlsItemClass(isActive)}">${text}</button>`

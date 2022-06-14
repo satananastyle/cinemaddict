@@ -1,7 +1,6 @@
 import AbstractView from '../framework/view/abstract-view.js';
 import { formatDate, formatRuntime } from '../utils/utils.js';
-
-const RELEASE_DATE = 'DD MMMM YYYY';
+import { DateFormat } from '../utils/const.js';
 
 const createRowTemplate = (title, info) => (
   `<tr class="film-details__row">
@@ -24,7 +23,7 @@ const createFilmDetailsTemplate = (film) => {
     director: filmInfo.director,
     writers: filmInfo.writers.join(', '),
     actors: filmInfo.actors.join(', '),
-    date: formatDate(filmInfo.release.date, RELEASE_DATE),
+    date: formatDate(filmInfo.release.date, DateFormat.RELEASE_FULL),
     runtime: formatRuntime(filmInfo.runtime),
     country: filmInfo.release.country,
     genres: filmInfo.genres,

@@ -1,7 +1,6 @@
 import AbstractView from '../framework/view/abstract-view.js';
 import { formatDate } from '../utils/utils.js';
-
-const COMMENT_DATE = 'YYYY/MM/DD HH:MM';
+import { DateFormat } from '../utils/const.js';
 
 const createCommentTemplate = (message) => {
   const { comment, author, emotion, date } = message;
@@ -15,7 +14,7 @@ const createCommentTemplate = (message) => {
        <p class="film-details__comment-text">${comment}</p>
        <p class="film-details__comment-info">
          <span class="film-details__comment-author">${author}</span>
-         <span class="film-details__comment-day">${formatDate(date, COMMENT_DATE)}</span>
+         <span class="film-details__comment-day">${formatDate(date, DateFormat.COMMENT)}</span>
          <button class="film-details__comment-delete">Delete</button>
        </p>
      </div>
