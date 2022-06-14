@@ -11,4 +11,11 @@ const DateFormat = {
   RELEASE_FULL: 'DD MMMM YYYY',
 };
 
-export { FilmListTitle, DateFormat };
+const FilterType = {
+  ALL: 'all',
+  WATCHLIST: 'watchlist',
+  HISTORY: 'history',
+  FAVORITES: 'favorites',
+};
+
+export { FilmListTitle, DateFormat, FilterType };
