@@ -12,10 +12,27 @@ const DateFormat = {
 };
 
 const FilterType = {
-  ALL: 'all',
-  WATCHLIST: 'watchlist',
-  HISTORY: 'history',
-  FAVORITES: 'favorites',
+  ALL: 'All movies',
+  WATCHLIST: 'Watchlist',
+  HISTORY: 'History',
+  FAVORITES: 'Favorites',
+
+  // ALL: {
+  //   name: 'All movies',
+  //   id: 'all'
+  // },
+  // WATCHLIST: {
+  //   name: 'Watchlist',
+  //   id: 'watchlist'
+  // },
+  // HISTORY: {
+  //   name: 'History',
+  //   id: 'history'
+  // },
+  // FAVORITES: {
+  //   name: 'Favorites',
+  //   id: 'favorites'
+  // }
 };
 
 export { FilmListTitle, DateFormat, FilterType };
