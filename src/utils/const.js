@@ -5,4 +5,17 @@ const FilmListTitle = {
   COMMENTED: 'Most commented'
 };
 
-export { FilmListTitle };
+const DateFormat = {
+  COMMENT: 'YYYY/MM/DD HH:MM',
+  RELEASE: 'YYYY',
+  RELEASE_FULL: 'DD MMMM YYYY',
+};
+
+const FilterType = {
+  ALL: 'All movies',
+  WATCHLIST: 'Watchlist',
+  HISTORY: 'History',
+  FAVORITES: 'Favorites',
+};
+
+export { FilmListTitle, DateFormat, FilterType };

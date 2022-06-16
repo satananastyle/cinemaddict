@@ -1,7 +1,6 @@
 import AbstractView from '../framework/view/abstract-view.js';
 import { formatDate, formatRuntime, truncateText } from '../utils/utils.js';
-
-const RELEASE_DATE_FORMAT = 'YYYY';
+import { DateFormat } from '../utils/const.js';
 
 const MAX_DESCRIPTION_LENGTH = 140;
 
@@ -24,7 +23,7 @@ const createFilmCardTemplate = (film) => {
   const info = {
     title: filmInfo.title,
     rating: filmInfo.totalRating,
-    date: formatDate(filmInfo.release.date, RELEASE_DATE_FORMAT),
+    date: formatDate(filmInfo.release.date, DateFormat.RELEASE),
     runtime: formatRuntime(filmInfo.runtime),
     genre: filmInfo.genres[0],
     poster: filmInfo.poster,
@@ -64,12 +63,12 @@ export default class FilmCardView extends AbstractView {
   }
 
   setOnLinkClick = (callback) => {
-    this._callback.linkClick = callback;
+    this._callback.clickLink = callback;
     this.element.querySelector('.film-card__link').addEventListener('click', this.#onLinkClick);
   };
 
   #onLinkClick = (evt) => {
     evt.preventDefault();
-    this._callback.linkClick();
+    this._callback.clickLink();
   };
 }

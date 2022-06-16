@@ -71,14 +71,14 @@ export default class FilmsPresenter {
     if (this.#films.length > FILM_COUNT_PER_STEP) {
       render(this.#showMoreButton, this.#filmsList.element);
 
-      this.#showMoreButton.setOnElementClick(this.#onShowMoreButtonClick);
+      this.#showMoreButton.setOnClick(this.#handleShowMoreButtonClick);
     }
 
     render(this.#filmsComponent, this.#mainContainerElement);
     render(this.#filmsList, this.#filmsComponent.element);
   };
 
-  #onShowMoreButtonClick = () => {
+  #handleShowMoreButtonClick = () => {
     this.#films
       .slice(this.#renderedFilmCount, this.#renderedFilmCount + FILM_COUNT_PER_STEP)
       .forEach(this.#renderFilm);

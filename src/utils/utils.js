@@ -1,13 +1,10 @@
 import dayjs from 'dayjs';
+import duration from 'dayjs/plugin/duration';
+import { FilterType } from './const.js';
 
-const HOUR = 60;
+dayjs.extend(duration);
 
-const formatRuntime = (minutes) => {
-  if (minutes >= HOUR) {
-    return `${Math.floor(minutes / HOUR)}h ${minutes % HOUR}m`;
-  }
-  return `${minutes}m`;
-};
+const formatRuntime = (minutes) => dayjs.duration(minutes, 'm').format('H[h] m[m]');
 
 const formatDate = (date, format) => dayjs(date).format(format);
 
@@ -16,4 +13,11 @@ const truncateText = (text, maxLength) =>
     ? `${text.slice(0, maxLength)}…`
     : text;
 
-export { formatRuntime, formatDate, truncateText };
+const filter = {
+  [FilterType.ALL]: (films) => films,
+  [FilterType.WATCHLIST]: (films) => films.filter((film) => film.userDetails.watchlist),
+  [FilterType.HISTORY]: (films) => films.filter((film) => film.userDetails.alreadyWatched),
+  [FilterType.FAVORITES]: (films) => films.filter((film) => film.userDetails.favorite),
+};
+
+export { formatRuntime, formatDate, truncateText, filter };

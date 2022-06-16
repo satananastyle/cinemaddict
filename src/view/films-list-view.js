@@ -10,7 +10,7 @@ const createFilmsListTemplate = (title) => (
 );
 
 export default class FilmsListView extends AbstractView {
-  #title = null;
+  #title = '';
 
   constructor(title) {
     super();
