@@ -13,11 +13,11 @@ const truncateText = (text, maxLength) =>
     ? `${text.slice(0, maxLength)}…`
     : text;
 
-const filter = {
-  [FilterType.ALL]: (films) => films,
+const filterTypeToFilms = {
+  [FilterType.ALL]: (films) => films.slice(),
   [FilterType.WATCHLIST]: (films) => films.filter((film) => film.userDetails.watchlist),
   [FilterType.HISTORY]: (films) => films.filter((film) => film.userDetails.alreadyWatched),
   [FilterType.FAVORITES]: (films) => films.filter((film) => film.userDetails.favorite),
 };
 
-export { formatRuntime, formatDate, truncateText, filter };
+export { formatRuntime, formatDate, truncateText, filterTypeToFilms };
