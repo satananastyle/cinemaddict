@@ -103,9 +103,6 @@ export default class FilmsPresenter {
   };
 
   #sortFilms = (sortType) => {
-    // 2. Этот исходный массив задач необходим,
-    // потому что для сортировки мы будем мутировать
-    // массив в свойстве _boardTasks
     switch (sortType) {
       case SortType.DATE:
         this.#films.sort(sortDate);
@@ -116,8 +113,6 @@ export default class FilmsPresenter {
         break;
 
       default:
-        // 3. А когда пользователь захочет "вернуть всё, как было",
-        // мы просто запишем в _boardTasks исходный массив
         this.#films = [...this.#sourcedFilms];
     }
 

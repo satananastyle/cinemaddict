@@ -64,7 +64,9 @@ export default class FilmCardPresenter {
 
   destroy = () => {
     remove(this.#filmCardComponent);
-    remove(this.#popupComponent);
+    if (this.#popupComponent) {
+      this.#popupComponent.destroy();
+    }
   };
 
   resetView = () => {
