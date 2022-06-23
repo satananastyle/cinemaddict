@@ -1,8 +1,9 @@
-import { getRandomInteger, getRandom, getRandomInfo, getRandomList } from './random.js';
+import { getRandomInteger, getRandom, getRandomInfo, getRandomList, getRandomDate } from './random.js';
 import { nanoid } from 'nanoid';
 
 const MAX_AGE = 18;
 const MAX_RATING = 10;
+const FIRTS_FILM = 1896;
 
 const Runtime = {
   MIN: 15,
@@ -90,7 +91,7 @@ export const generateFilm = () => ({
     writers: [...new Set(getRandomList(writers))],
     actors: [...new Set(getRandomList(actors))],
     release: {
-      date: new Date('2019-05-11T00:00:00.000Z'),
+      date: getRandomDate(new Date(FIRTS_FILM, 0, 1), new Date()),
       country: getRandomInfo(countries)
     },
     runtime: getRandomInteger(Runtime.MIN, Runtime.MAX),

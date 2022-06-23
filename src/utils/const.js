@@ -18,4 +18,10 @@ const FilterType = {
   FAVORITES: 'Favorites',
 };
 
-export { FilmListTitle, DateFormat, FilterType };
+const SortType = {
+  DEFAULT: 'default',
+  DATE: 'date',
+  RATING: 'rating',
+};
+
+export { FilmListTitle, DateFormat, FilterType, SortType };

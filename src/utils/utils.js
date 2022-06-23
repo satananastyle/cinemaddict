@@ -34,4 +34,8 @@ const filterTypeToFilms = {
   [FilterType.FAVORITES]: (films) => films.filter((film) => film.userDetails.favorite),
 };
 
-export { formatRuntime, formatDate, truncateText, filterTypeToFilms, updateItem };
+const sortDate = (filmA, filmB) => dayjs(filmB.filmInfo.release.date).diff(dayjs(filmA.filmInfo.release.date));
+const sortRating = (filmA, filmB) => filmB.filmInfo.totalRating - filmA.filmInfo.totalRating;
+
+
+export { formatRuntime, formatDate, truncateText, filterTypeToFilms, updateItem, sortDate, sortRating };

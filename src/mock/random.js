@@ -32,4 +32,8 @@ const getRandomList = (list) => {
   return randomList;
 };
 
-export { getRandomInteger, getRandom, getRandomInfo, getRandomList };
+function getRandomDate(start, end) {
+  return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+}
+
+export { getRandomInteger, getRandom, getRandomInfo, getRandomList, getRandomDate };
