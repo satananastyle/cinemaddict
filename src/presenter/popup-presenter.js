@@ -54,14 +54,6 @@ export default class PopupPresenter {
     }
   };
 
-  #onEscKeyDown = (evt) => {
-    if (evt.key === 'Escape' || evt.key === 'Esc') {
-      evt.preventDefault();
-      this.destroy();
-      document.removeEventListener('keydown', this.#onEscKeyDown);
-    }
-  };
-
   #handleAddToWatchlistClick = () => {
     const newUserDetails = { ...this.#openedFilm.userDetails, watchlist: !this.#openedFilm.userDetails.watchlist };
     this.#changeData({ ...this.#openedFilm, userDetails: newUserDetails });
@@ -76,4 +68,13 @@ export default class PopupPresenter {
     const newUserDetails = { ...this.#openedFilm.userDetails, favorite: !this.#openedFilm.userDetails.favorite };
     this.#changeData({ ...this.#openedFilm, userDetails: newUserDetails });
   };
+
+  #onEscKeyDown = (evt) => {
+    if (evt.key === 'Escape' || evt.key === 'Esc') {
+      evt.preventDefault();
+      this.destroy();
+      document.removeEventListener('keydown', this.#onEscKeyDown);
+    }
+  };
+
 }

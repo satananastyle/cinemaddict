@@ -64,16 +64,6 @@ export default class FilmsPresenter {
     this.#showMoreButton.setOnClick(this.#handleShowMoreButtonClick);
   };
 
-  #handleShowMoreButtonClick = () => {
-    this.#renderFilms(this.#renderedFilmCount, this.#renderedFilmCount + FILM_COUNT_PER_STEP);
-
-    this.#renderedFilmCount += FILM_COUNT_PER_STEP;
-
-    if (this.#renderedFilmCount >= this.#films.length) {
-      remove(this.#showMoreButton);
-    }
-  };
-
   #renderMainFilmsList = () => {
     this.#filmsList = new FilmsListView(FilmListTitle.MAIN);
 
@@ -87,22 +77,6 @@ export default class FilmsPresenter {
     render(this.#filmsList, this.#filmsComponent.element);
   };
 
-  #clearFilmsList = () => {
-    this.#filmCardPresenter.forEach((presenter) => presenter.destroy());
-    this.#filmCardPresenter.clear();
-    this.#renderedFilmCount = FILM_COUNT_PER_STEP;
-    remove(this.#showMoreButton);
-  };
-
-  #handleModeChange = () => {
-    this.#filmCardPresenter.forEach((presenter) => presenter.resetView());
-  };
-
-  #handleFilmChange = (updatedFilm) => {
-    this.#films = updateItem(this.#films, updatedFilm);
-    this.#filmCardPresenter.get(updatedFilm.id).init(updatedFilm);
-  };
-
   #renderFilmsList = () => {
     if (this.#filmsModel.isEmpty()) {
       this.#renderEmptyList();
@@ -113,5 +87,31 @@ export default class FilmsPresenter {
 
     render(this.#filmsComponent, this.#mainContainerElement);
     this.#renderMainFilmsList();
+  };
+
+  #clearFilmsList = () => {
+    this.#filmCardPresenter.forEach((presenter) => presenter.destroy());
+    this.#filmCardPresenter.clear();
+    this.#renderedFilmCount = FILM_COUNT_PER_STEP;
+    remove(this.#showMoreButton);
+  };
+
+  #handleFilmChange = (updatedFilm) => {
+    this.#films = updateItem(this.#films, updatedFilm);
+    this.#filmCardPresenter.get(updatedFilm.id).init(updatedFilm);
+  };
+
+  #handleShowMoreButtonClick = () => {
+    this.#renderFilms(this.#renderedFilmCount, this.#renderedFilmCount + FILM_COUNT_PER_STEP);
+
+    this.#renderedFilmCount += FILM_COUNT_PER_STEP;
+
+    if (this.#renderedFilmCount >= this.#films.length) {
+      remove(this.#showMoreButton);
+    }
+  };
+
+  #handleModeChange = () => {
+    this.#filmCardPresenter.forEach((presenter) => presenter.resetView());
   };
 }
