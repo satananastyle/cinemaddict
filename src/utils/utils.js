@@ -13,11 +13,25 @@ const truncateText = (text, maxLength) =>
     ? `${text.slice(0, maxLength)}…`
     : text;
 
-const filter = {
-  [FilterType.ALL]: (films) => films,
+const updateItem = (items, update) => {
+  const index = items.findIndex((item) => item.id === update.id);
+
+  if (index === -1) {
+    return items;
+  }
+
+  return [
+    ...items.slice(0, index),
+    update,
+    ...items.slice(index + 1),
+  ];
+};
+
+const filterTypeToFilms = {
+  [FilterType.ALL]: (films) => films.slice(),
   [FilterType.WATCHLIST]: (films) => films.filter((film) => film.userDetails.watchlist),
   [FilterType.HISTORY]: (films) => films.filter((film) => film.userDetails.alreadyWatched),
   [FilterType.FAVORITES]: (films) => films.filter((film) => film.userDetails.favorite),
 };
 
-export { formatRuntime, formatDate, truncateText, filter };
+export { formatRuntime, formatDate, truncateText, filterTypeToFilms, updateItem };

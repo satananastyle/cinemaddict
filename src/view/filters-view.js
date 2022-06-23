@@ -1,6 +1,7 @@
 import AbstractView from '../framework/view/abstract-view.js';
 import { FilterType } from '../utils/const.js';
 
+
 const getFilterItemClass = (isActive) => isActive ? 'main-navigation__item--active' : '';
 const getFiltersCount = (name, count) => name === FilterType.ALL ? '' : `<span class="main-navigation__item-count">${count}</span>`;
 
@@ -24,7 +25,7 @@ const createFiltersTemplate = (filterItems) => {
 };
 
 export default class FiltersView extends AbstractView {
-  #filters = null;
+  #filters = [];
 
   constructor(filters) {
     super();
